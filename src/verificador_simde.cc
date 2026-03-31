@@ -1,6 +1,6 @@
 // Verificador del Selection Sort en ensamblador SIMDE
 // Simula las operaciones registro a registro para comprobar
-// que el .pla produce el resultado correcto.
+// que el .simde produce el resultado correcto.
 
 #include <cassert>
 #include <iostream>
