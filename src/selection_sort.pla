@@ -1,0 +1,66 @@
+// Selection Sort para SIMDE
+// MEM[0] = n (tamaño del vector)
+// MEM[1] = puntero al vector origen
+// MEM[2] = puntero al vector destino
+// Solo se modifica el vector destino
+//
+// Registros usados:
+//   R1  = n
+//   R2  = ptr_src (base origen)
+//   R3  = ptr_dest (base destino)
+//   R4  = current_src (iterador copia)
+//   R5  = current_dest (iterador copia)
+//   R6  = end_src (fin bucle copia)
+//   R7  = temp copia
+//   R8  = addr_i (dirección actual bucle externo)
+//   R9  = end_outer (ptr_dest + n - 1)
+//   R10 = addr_j (dirección actual bucle interno)
+//   R11 = end_inner (ptr_dest + n)
+//   R12 = addr_min (dirección del mínimo actual)
+//   R13 = val_j (valor en j)
+//   R14 = val_min (valor en min_idx)
+//   R15 = temp swap 1
+//   R16 = temp swap 2
+//   R17 = constante 1 (para restar)
+32
+// === FASE 1: Cargar parámetros ===
+	LW R1 0(R0)
+	LW R2 1(R0)
+	LW R3 2(R0)
+// === FASE 2: Copiar origen a destino ===
+	ADD R4 R2 R0
+	ADD R5 R3 R0
+	ADD R6 R2 R1
+COPY:
+	LW R7 0(R4)
+	SW R7 0(R5)
+	ADDI R4 R4 #1
+	ADDI R5 R5 #1
+	BNE R4 R6 COPY
+// === FASE 3: Selection Sort sobre destino ===
+	ADDI R17 R0 #1
+	ADD R9 R3 R1
+	SUB R9 R9 R17
+	ADD R11 R3 R1
+	ADD R8 R3 R0
+OUTER:
+	ADD R12 R8 R0
+	ADDI R10 R8 #1
+INNER:
+	LW R13 0(R10)
+	LW R14 0(R12)
+	BGT R14 R13 NEWMIN
+	BEQ R0 R0 CONT
+NEWMIN:
+	ADD R12 R10 R0
+CONT:
+	ADDI R10 R10 #1
+	BNE R10 R11 INNER
+	BEQ R12 R8 NOSWAP
+	LW R15 0(R8)
+	LW R16 0(R12)
+	SW R16 0(R8)
+	SW R15 0(R12)
+NOSWAP:
+	ADDI R8 R8 #1
+	BNE R8 R9 OUTER

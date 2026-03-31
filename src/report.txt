@@ -1,0 +1,44 @@
+=== Vector SIMDE (n=10) ===
+Ciclos secuenciales totales: 992
+Instrucciones totales:       408
+  IntAdd (1 ciclo):   114 instrucciones, 114 ciclos
+  Memory (4 ciclos):  145 instrucciones, 580 ciclos
+  Jump   (2 ciclos):  149 instrucciones, 298 ciclos
+Ciclos superescalar:         528
+Aceleración (seq/super):     1.87879x
+
+=== Ya ordenado (n=10) ===
+Ciclos secuenciales totales: 878
+Instrucciones totales:       376
+  IntAdd (1 ciclo):   100 instrucciones, 100 ciclos
+  Memory (4 ciclos):  113 instrucciones, 452 ciclos
+  Jump   (2 ciclos):  163 instrucciones, 326 ciclos
+
+=== Invertido (peor caso swaps) (n=10) ===
+Ciclos secuenciales totales: 933
+Instrucciones totales:       396
+  IntAdd (1 ciclo):   125 instrucciones, 125 ciclos
+  Memory (4 ciclos):  133 instrucciones, 532 ciclos
+  Jump   (2 ciclos):  138 instrucciones, 276 ciclos
+
+=== Todos iguales (n=10) ===
+Ciclos secuenciales totales: 878
+Instrucciones totales:       376
+  IntAdd (1 ciclo):   100 instrucciones, 100 ciclos
+  Memory (4 ciclos):  113 instrucciones, 452 ciclos
+  Jump   (2 ciclos):  163 instrucciones, 326 ciclos
+
+=== Pequeño n=5 (n=5) ===
+Ciclos secuenciales totales: 303
+Instrucciones totales:       128
+  IntAdd (1 ciclo):   43 instrucciones, 43 ciclos
+  Memory (4 ciclos):  45 instrucciones, 180 ciclos
+  Jump   (2 ciclos):  40 instrucciones, 80 ciclos
+
+=== Invertido n=20 (n=20) ===
+Ciclos secuenciales totales: 3303
+Instrucciones totales:       1386
+  IntAdd (1 ciclo):   395 instrucciones, 395 ciclos
+  Memory (4 ciclos):  463 instrucciones, 1852 ciclos
+  Jump   (2 ciclos):  528 instrucciones, 1056 ciclos
+
