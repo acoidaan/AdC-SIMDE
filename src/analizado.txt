@@ -1,0 +1,22 @@
+=== ANALISIS SIMDE / AMDHAL ===
+Archivo: ../batch_stats(7).json
+Replicaciones detectadas: 50
+Ciclos medios estimados: 52601.000
+Desviacion tipica muestral: 0.000
+Min/Max ciclos: 52601.000 / 52601.000
+
+=== RESUMEN POR UNIDAD FUNCIONAL ===
+UF                   Inst/repl   Commit/repl     %Commit       Exec/repl      f_exec
+Integer Add            300.000       114.000      38.000         215.000       0.108
+Jump                   428.000       114.000      26.636         444.000       0.223
+Memory                 406.000       145.000      35.714        1333.000       0.669
+
+=== DETALLE MEDIO POR FASE ===
+UF                  Prefetch      Decode       Issue     Execute     WriteBk
+Integer Add          952.000     405.000     263.000     215.000     901.000
+Jump                1476.000     859.000     729.000     444.000     592.000
+Memory              1362.000     555.000     363.000    1333.000     219.000
+
+=== NOTA PARA AMDHAL ===
+Usa f_exec como fraccion mejorable si analizas reduccion de latencia de una UF.
+Formula: Speedup = 1 / ((1 - f) + f / k)
