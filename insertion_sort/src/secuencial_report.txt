@@ -1,0 +1,174 @@
+============================================================
+ Simulador Secuencial - Insertion Sort FLOTANTE
+ (insertion.pla con LF/SF + BGTF) — 28 instrucciones
+ 6 vectores oficiales de la competicion
+============================================================
+
+>>> order0.mem (n=8, mixto)
+    Valores: 108.2, 10.5, 99.56, 8.5, 8.3, 73.75, 6.7, 56.67
+
+  ========== RESULTADOS SECUENCIALES ==========
+  Tipo instruccion       | Cuenta | Latencia | Ciclos
+  -----------------------+--------+----------+-------
+  Integer Add (ADD/ADDI) |     79 |        1 |     79
+  Integer Mult (MULT)    |      0 |        2 |      0
+  Float Add (ADDF/SUBF)  |      0 |        4 |      0
+  Float Mult (MULTF)     |      0 |        6 |      0
+  Memory (LW/SW/LF/SF)   |     76 |        4 |    304
+  Jump (BNE/BEQ/BGT/BGTF)|     96 |        2 |    192
+  -----------------------+--------+----------+-------
+  TOTAL                  |    251 |          |    575
+  ================================================
+
+  --- Fracciones de tiempo (para Amdahl) ---
+  Integer Add            :  13.74%
+  Integer Mult           :   0.00%
+  Float Add              :   0.00%
+  Float Mult             :   0.00%
+  Memory                 :  52.87%
+  Jump/Branch            :  33.39%
+
+>>> order1.mem (n=32, ordenado)
+    Valores: 1.12, 2.45, 3.78, 4.01, 5.67, 6.89, 7.23, 8.54, 9.11, 10.33, 11.88, 12.02, 13.44, 14.56, 15.77, 16.21, 17.89, 18.34, 19.56, 20.01, 21.44, 22.67, 23.89, 24.12, 25.56, 26.78, 27.91, 28.34, 29.56, 30.11, 31.45, 32.88
+
+  ========== RESULTADOS SECUENCIALES ==========
+  Tipo instruccion       | Cuenta | Latencia | Ciclos
+  -----------------------+--------+----------+-------
+  Integer Add (ADD/ADDI) |    163 |        1 |    163
+  Integer Mult (MULT)    |      0 |        2 |      0
+  Float Add (ADDF/SUBF)  |      0 |        4 |      0
+  Float Mult (MULTF)     |      0 |        6 |      0
+  Memory (LW/SW/LF/SF)   |    160 |        4 |    640
+  Jump (BNE/BEQ/BGT/BGTF)|    188 |        2 |    376
+  -----------------------+--------+----------+-------
+  TOTAL                  |    511 |          |   1179
+  ================================================
+
+  --- Fracciones de tiempo (para Amdahl) ---
+  Integer Add            :  13.83%
+  Integer Mult           :   0.00%
+  Float Add              :   0.00%
+  Float Mult             :   0.00%
+  Memory                 :  54.28%
+  Jump/Branch            :  31.89%
+
+>>> order2.mem (n=32, invertido)
+    Valores: 99.5, 95.2, 91.8, 88.4, 85.1, 82.7, 79.3, 76, 73.6, 70.2, 67.9, 64.5, 61.1, 58.8, 55.4, 52.1, 49.7, 46.3, 43, 40.6, 37.2, 34.9, 31.5, 28.1, 25.8, 22.4, 19.1, 16.7, 13.3, 10, 7.6, 4.2
+
+  ========== RESULTADOS SECUENCIALES ==========
+  Tipo instruccion       | Cuenta | Latencia | Ciclos
+  -----------------------+--------+----------+-------
+  Integer Add (ADD/ADDI) |   1124 |        1 |   1124
+  Integer Mult (MULT)    |      0 |        2 |      0
+  Float Add (ADDF/SUBF)  |      0 |        4 |      0
+  Float Mult (MULTF)     |      0 |        6 |      0
+  Memory (LW/SW/LF/SF)   |   1121 |        4 |   4484
+  Jump (BNE/BEQ/BGT/BGTF)|   1614 |        2 |   3228
+  -----------------------+--------+----------+-------
+  TOTAL                  |   3859 |          |   8836
+  ================================================
+
+  --- Fracciones de tiempo (para Amdahl) ---
+  Integer Add            :  12.72%
+  Integer Mult           :   0.00%
+  Float Add              :   0.00%
+  Float Mult             :   0.00%
+  Memory                 :  50.75%
+  Jump/Branch            :  36.53%
+
+>>> order3.mem (n=32, aleatorio)
+    Valores: 45.23, 12.89, 78.41, 3.56, 56.12, 89.04, 21.77, 67.32, 9.15, 34.66, 82.01, 15.48, 94.73, 41.29, 27.85, 63.11, 5.92, 51.04, 73.28, 18.66, 39.44, 87.21, 10.55, 60.98, 2.33, 98.12, 31.47, 55.67, 14.22, 71.03, 48.59, 25.14
+
+  ========== RESULTADOS SECUENCIALES ==========
+  Tipo instruccion       | Cuenta | Latencia | Ciclos
+  -----------------------+--------+----------+-------
+  Integer Add (ADD/ADDI) |    656 |        1 |    656
+  Integer Mult (MULT)    |      0 |        2 |      0
+  Float Add (ADDF/SUBF)  |      0 |        4 |      0
+  Float Mult (MULTF)     |      0 |        6 |      0
+  Memory (LW/SW/LF/SF)   |    653 |        4 |   2612
+  Jump (BNE/BEQ/BGT/BGTF)|    926 |        2 |   1852
+  -----------------------+--------+----------+-------
+  TOTAL                  |   2235 |          |   5120
+  ================================================
+
+  --- Fracciones de tiempo (para Amdahl) ---
+  Integer Add            :  12.81%
+  Integer Mult           :   0.00%
+  Float Add              :   0.00%
+  Float Mult             :   0.00%
+  Memory                 :  51.02%
+  Jump/Branch            :  36.17%
+
+>>> order4.mem (n=32, casi ordenado)
+    Valores: 1.05, 2.15, 3.25, 4.35, 15.88, 6.55, 7.65, 8.75, 9.85, 10.95, 11.05, 12.15, 13.25, 14.35, 5.45, 16.55, 17.65, 18.75, 19.85, 20.95, 21.05, 22.15, 23.25, 24.35, 32.95, 26.55, 27.65, 28.75, 29.85, 30.95, 31.05, 25.45
+
+  ========== RESULTADOS SECUENCIALES ==========
+  Tipo instruccion       | Cuenta | Latencia | Ciclos
+  -----------------------+--------+----------+-------
+  Integer Add (ADD/ADDI) |    227 |        1 |    227
+  Integer Mult (MULT)    |      0 |        2 |      0
+  Float Add (ADDF/SUBF)  |      0 |        4 |      0
+  Float Mult (MULTF)     |      0 |        6 |      0
+  Memory (LW/SW/LF/SF)   |    224 |        4 |    896
+  Jump (BNE/BEQ/BGT/BGTF)|    284 |        2 |    568
+  -----------------------+--------+----------+-------
+  TOTAL                  |    735 |          |   1691
+  ================================================
+
+  --- Fracciones de tiempo (para Amdahl) ---
+  Integer Add            :  13.42%
+  Integer Mult           :   0.00%
+  Float Add              :   0.00%
+  Float Mult             :   0.00%
+  Memory                 :  52.99%
+  Jump/Branch            :  33.59%
+
+>>> order5.mem (n=32, repetidos)
+    Valores: 5.5, 5.5, 1.2, 8.8, 5.5, 1.2, 8.8, 8.8, 5.5, 1.2, 5.5, 5.5, 8.8, 1.2, 1.2, 5.5, 8.8, 5.5, 1.2, 8.8, 5.5, 1.2, 5.5, 8.8, 8.8, 1.2, 5.5, 1.2, 8.8, 5.5, 5.5, 1.2
+
+  ========== RESULTADOS SECUENCIALES ==========
+  Tipo instruccion       | Cuenta | Latencia | Ciclos
+  -----------------------+--------+----------+-------
+  Integer Add (ADD/ADDI) |    516 |        1 |    516
+  Integer Mult (MULT)    |      0 |        2 |      0
+  Float Add (ADDF/SUBF)  |      0 |        4 |      0
+  Float Mult (MULTF)     |      0 |        6 |      0
+  Memory (LW/SW/LF/SF)   |    513 |        4 |   2052
+  Jump (BNE/BEQ/BGT/BGTF)|    717 |        2 |   1434
+  -----------------------+--------+----------+-------
+  TOTAL                  |   1746 |          |   4002
+  ================================================
+
+  --- Fracciones de tiempo (para Amdahl) ---
+  Integer Add            :  12.89%
+  Integer Mult           :   0.00%
+  Float Add              :   0.00%
+  Float Mult             :   0.00%
+  Memory                 :  51.27%
+  Jump/Branch            :  35.83%
+
+
+============================================================
+              RESUMEN - TODOS LOS VECTORES
+============================================================
+  Fichero                                  |   n | Instr | Ciclos
+  ----------------------------------------+-----+-------+-------
+  order0.mem (n=8, mixto)                  |   8 |   251 |    575
+  order1.mem (n=32, ordenado)              |  32 |   511 |   1179
+  order2.mem (n=32, invertido)             |  32 |  3859 |   8836
+  order3.mem (n=32, aleatorio)             |  32 |  2235 |   5120
+  order4.mem (n=32, casi ordenado)         |  32 |   735 |   1691
+  order5.mem (n=32, repetidos)             |  32 |  1746 |   4002
+
+  --- Desglose por tipo (para el Excel) ---
+  Fichero                                  | IntAdd | Memory |   Jump |  Instr | Ciclos
+  ----------------------------------------+--------+--------+--------+--------+-------
+  order0.mem (n=8, mixto)                  |     79 |     76 |     96 |    251 |    575
+  order1.mem (n=32, ordenado)              |    163 |    160 |    188 |    511 |   1179
+  order2.mem (n=32, invertido)             |   1124 |   1121 |   1614 |   3859 |   8836
+  order3.mem (n=32, aleatorio)             |    656 |    653 |    926 |   2235 |   5120
+  order4.mem (n=32, casi ordenado)         |    227 |    224 |    284 |    735 |   1691
+  order5.mem (n=32, repetidos)             |    516 |    513 |    717 |   1746 |   4002
+
+*** Todos los vectores ordenados correctamente. ***
