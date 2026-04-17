@@ -1,12 +1,9 @@
-# ============================================================
-
 # Equipo: Mono Núcleo
 
 # Algoritmo: Insertion Sort (punto flotante)
 
 # Práctica: AC2526 - Máquina Superescalar (SIMDE)
 
-# ============================================================
 
 ## ARCHIVOS ENTREGADOS
 
