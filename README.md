@@ -30,8 +30,6 @@ MEM[2] = dir_destino(dirección base del vector destino)
 2. **Ordena** el destino in-place con Insertion Sort, comparando con `BGTF`
 3. El vector **origen NO se modifica**
 
-> **Nota:** `BGTF` (branch if greater than, float) fue confirmada por el profesor Iván Castilla el 7 de abril de 2026 como instrucción disponible en SIMDE.
-
 ### Ciclos secuenciales (para el Excel)
 
 | Ejemplo | Fichero | Tipo | Ciclos |
@@ -43,6 +41,16 @@ MEM[2] = dir_destino(dirección base del vector destino)
 | 5 | `order5.mem` | Repetidos | **4002** |
 
 `order0.mem` (n=8) es solo para pruebas y no se incluye en el Excel.
+
+### Vectores usados en cada apartado
+
+| Apartado | Vector usado | Justificación |
+|---|---|---|
+| 3a) Superescalar por defecto (sin caché) | Todos (order1–order5) | Se reportan los 5 ejemplos |
+| 3b) Con 10% fallos de caché | Todos (order1–order5) | 50 replicaciones por vector |
+| 3c) Ley de Amdahl | Todos | Análisis de fracciones de tiempo |
+| 3d) Aumentar hardware | `order1.mem` (ordenado) | Caso 1 del excel |
+| 3e) Reducir hardware | `order5.mem` (repetidos) | Caso 5 del excel |
 
 ### Guía de verificación
 
