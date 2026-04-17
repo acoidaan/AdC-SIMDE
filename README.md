@@ -4,7 +4,6 @@
 
 # Práctica: AC2526 - Máquina Superescalar (SIMDE)
 
-
 ## ARCHIVOS ENTREGADOS
 
 ### 1. insertion.pla
@@ -95,6 +94,3 @@
   de punto flotante (ADDF/SUBF/MULTF). Solo usa Integer Add,
   Memory y Jump. Las UF de mult entera, float add y float mult
   tienen 0% de utilización.
-- La instrucción BGTF es nueva en SIMDE. Si el simulador del
-  revisor no la soporta, debe actualizar a la versión más
-  reciente (confirmado por el profesor el 7/04/2026).
