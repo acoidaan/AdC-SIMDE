@@ -1,96 +1,92 @@
-# Equipo: Mono Núcleo
+# AdC-SIMDE — Práctica Superescalar
 
-# Algoritmo: Insertion Sort (punto flotante)
+Implementación de algoritmos de ordenamiento en ensamblador SIMDE para la asignatura de Arquitectura de Computadores (2025-2026).
 
-# Práctica: AC2526 - Máquina Superescalar (SIMDE)
+## Algoritmo final: Insertion Sort (punto flotante)
 
-## ARCHIVOS ENTREGADOS
+> **Revisores:** todo lo necesario está en la carpeta [`insertion_sort/`](./insertion_sort/).
 
-### 1. insertion.pla
+### Archivos principales
 
-   Código ensamblador SIMDE — Insertion Sort con punto flotante.
+| Archivo | Descripción |
+|---|---|
+| [`insertion_sort/insertion.pla`](./insertion_sort/insertion.pla) | Código ensamblador SIMDE (28 instrucciones) |
+| [`insertion_sort/src/insertion_sequential.cpp`](./insertion_sort/src/insertion_sequential.cpp) | Calculador de ciclos secuenciales (C++17) |
+| [`insertion_sort/src/analizar_simde_amdahl_generico.cpp`](./insertion_sort/src/analizar_simde_amdahl_generico.cpp) | Analizador de estadísticas batch / Amdahl (C++17) |
+| [`insertion_sort/src/json.hpp`](./insertion_sort/src/json.hpp) | Librería JSON (nlohmann, dependencia del analizador) |
+| [`insertion_sort/mem/order0.mem` … `order5.mem`](./insertion_sort/mem/) | 6 vectores de prueba oficiales |
 
-- 28 instrucciones
-- Usa LF/SF para cargar/almacenar flotantes
-- Usa BGTF para comparar flotantes
-- Lee parámetros de memoria:
-       MEM[0] = n (tamaño del vector)
-       MEM[1] = dirección base del vector origen
-       MEM[2] = dirección base del vector destino
-- Solo modifica el vector DESTINO; el origen queda intacto
-- Primero copia origen → destino, luego ordena destino in-place
+### Cómo funciona el programa
 
-### 2. insertion_sequential.cpp
+El programa lee tres parámetros de memoria:
 
-   Simulador secuencial en C++ (estilo Google C++).
+```
+MEM[0] = n          (tamaño del vector)
+MEM[1] = dir_origen (dirección base del vector fuente)
+MEM[2] = dir_destino(dirección base del vector destino)
+```
 
-- Replica instrucción por instrucción el insertion.pla
-- Cuenta instrucciones por tipo: Integer Add, Memory, Jump
-- Calcula ciclos secuenciales con las latencias por defecto de SIMDE:
-       Integer Add (ADD/ADDI): 1 ciclo
-       Memory (LW/LF/SW/SF):  4 ciclos
-       Jump (BNE/BEQ/BGTF):   2 ciclos
-- Incluye los 6 vectores oficiales (order0.mem a order5.mem)
-- Verifica automáticamente que el resultado está bien ordenado
-- Compilar: g++ -std=c++17 -O2 -o insertion_seq insertion_sequential.cpp
-- Ejecutar: ./insertion_seq
+1. **Copia** el vector origen al destino usando `LF`/`SF` (flotantes)
+2. **Ordena** el destino in-place con Insertion Sort, comparando con `BGTF`
+3. El vector **origen NO se modifica**
 
-### 3. analizar_simde_amdahl_generico.cpp + json.hpp
+> **Nota:** `BGTF` (branch if greater than, float) fue confirmada por el profesor Iván Castilla el 7 de abril de 2026 como instrucción disponible en SIMDE.
 
-   Analizador de estadísticas batch de SIMDE.
+### Ciclos secuenciales (para el Excel)
 
-- Lee el JSON que exporta SIMDE tras una Batch Execution
-- Muestra ciclos por replicación, media, mediana y desv. típica
-- Calcula fracciones de ejecución por UF (para ley de Amdahl)
-- Compilar: g++ -std=c++17 -O2 -o analizar analizar_simde_amdahl_generico.cpp
-- Ejecutar: ./analizar batch_stats.json
+| Ejemplo | Fichero | Tipo | Ciclos |
+|---|---|---|---|
+| 1 | `order1.mem` | Ordenado (mejor caso) | **1179** |
+| 2 | `order2.mem` | Invertido (peor caso) | **8836** |
+| 3 | `order3.mem` | Aleatorio | **5120** |
+| 4 | `order4.mem` | Casi ordenado | **1691** |
+| 5 | `order5.mem` | Repetidos | **4002** |
 
-### 4. Ficheros .mem oficiales (order0.mem a order5.mem)
+`order0.mem` (n=8) es solo para pruebas y no se incluye en el Excel.
 
-   Los 6 vectores de prueba del profesor.
+### Guía de verificación
 
-- order0.mem: n=8,  mixto (solo para pruebas, NO va al Excel)
-- order1.mem: n=32, ya ordenado      → Ejemplo 1 del Excel
-- order2.mem: n=32, invertido        → Ejemplo 2 del Excel
-- order3.mem: n=32, aleatorio        → Ejemplo 3 del Excel
-- order4.mem: n=32, casi ordenado    → Ejemplo 4 del Excel
-- order5.mem: n=32, repetidos        → Ejemplo 5 del Excel
+#### 1. Comprobar que ordena correctamente
 
-### 5. Excel de la hoja compartida
+Cargar `insertion.pla` + cualquier `order*.mem` en SIMDE → ejecutar → el vector destino debe quedar ordenado de menor a mayor. El vector origen debe permanecer intacto.
 
-   Valores de ciclos secuenciales reportados:
+#### 2. Verificar ciclos secuenciales
 
-- Ejemplo 1 (order1, ordenado):       1179 ciclos
-- Ejemplo 2 (order2, invertido):      8836 ciclos
-- Ejemplo 3 (order3, aleatorio):      5120 ciclos
-- Ejemplo 4 (order4, casi ordenado):  1691 ciclos
-- Ejemplo 5 (order5, repetidos):      4002 ciclos
+```bash
+cd insertion_sort/src
+g++ -std=c++17 -O2 -o insertion_seq insertion_sequential.cpp
+./insertion_seq
+```
 
-## CÓMO VERIFICAR
+El programa simula instrucción por instrucción el `.pla`, calcula los ciclos con las latencias por defecto de SIMDE y verifica que cada vector queda correctamente ordenado.
 
-### Paso 1: Comprobar que ordena correctamente
+#### 3. Analizar batch execution (opcional)
 
-   Cargar insertion.pla en SIMDE junto con cualquier order*.mem.
-   Ejecutar y comprobar que el vector destino queda ordenado
-   de menor a mayor. El vector origen NO debe modificarse.
+```bash
+cd insertion_sort/src
+g++ -std=c++17 -O2 -o analizar analizar_simde_amdahl_generico.cpp
+./analizar batch_stats.json
+```
 
-### Paso 2: Verificar ciclos secuenciales
+### Desglose de instrucciones
 
-   Compilar y ejecutar insertion_sequential.cpp.
-   Los ciclos deben coincidir con los reportados arriba.
-   El programa también verifica que el resultado es correcto
-   para cada vector.
+El programa usa **3 tipos** de unidades funcionales:
 
-### Paso 3: Comprobar en SIMDE sin caché
+| Tipo | Instrucciones | Latencia |
+|---|---|---|
+| Integer Add | `ADD`, `ADDI` (12 instr. estáticas) | 1 ciclo |
+| Memory | `LW`, `LF`, `SF` (9 instr. estáticas) | 4 ciclos |
+| Jump | `BNE`, `BEQ`, `BGTF` (7 instr. estáticas) | 2 ciclos |
 
-   Ejecutar insertion.pla en SIMDE con 0% cache fault y
-   configuración por defecto. Comparar el número de ciclos
-   del superescalar con los ciclos secuenciales para calcular
-   la aceleración.
+**No se usan:** Integer Multiply, Float Add, Float Multiply (0% utilización).
 
-## NOTAS IMPORTANTES
+### Latencias por defecto de SIMDE
 
-- El código NO usa multiplicación entera (MULT), ni operaciones
-  de punto flotante (ADDF/SUBF/MULTF). Solo usa Integer Add,
-  Memory y Jump. Las UF de mult entera, float add y float mult
-  tienen 0% de utilización.
+| Unidad funcional | Latencia (ciclos) |
+|---|---|
+| Integer Add | 1 |
+| Integer Multiply | 2 |
+| Float Add | 4 |
+| Float Multiply | 6 |
+| Memory | 4 |
+| Jump/Branch | 2 |
