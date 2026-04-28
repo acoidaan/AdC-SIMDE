@@ -1,0 +1,116 @@
+// === FASE 1: Cargar parametros ===
+LW R1 0(R0)        // n
+LW R2 1(R0)        // src
+LW R3 2(R0)        // dest
+
+
+// === FASE 2: Copia src -> dest ===
+//
+// Aqui se aplican TRES tecnicas a la vez:
+//   - Desenrollado x4
+//   - Planificacion local
+//   - Software pipelining
+
+ADD R4 R2 R0       // R4 = src
+ADD R5 R3 R0       // R5 = dest
+ADD R6 R2 R1       // R6 = src + n  (limite del bucle)
+
+
+// --- [SOFTWARE PIPELINING - PROLOGO] ---
+//
+// Llenamos la "tuberia": cargamos el primer bloque de 4
+// elementos antes de entrar al cuerpo, para que en la primera
+// vuelta del bucle ya haya algo que almacenar.
+LF F1 0(R4)
+LF F2 1(R4)
+LF F3 2(R4)
+LF F4 3(R4)
+ADDI R4 R4 #4      // R4 -> bloque 1
+
+
+// --- [SOFTWARE PIPELINING - CUERPO + DESENROLLADO + PLANIF. LOCAL] ---
+//
+// En cada vuelta del cuerpo conviven dos iteraciones:
+//   - los SF almacenan el bloque cargado en la iter anterior
+//   - los LF cargan el bloque que se almacenara en la siguiente
+// Los SF y los LF son independientes entre si (renaming separa
+// las dos versiones de F1..F4), asi que la unidad de memoria
+// los emite en paralelo y la latencia de carga queda solapada.
+//
+// Planificacion local: el ADDI R5 va entre los SF y los LF
+// porque R5 ya no se usa abajo y la ALU esta libre mientras
+// la unidad de memoria procesa los LF.
+COPY:
+    SF F1 0(R5)
+    SF F2 1(R5)
+    SF F3 2(R5)
+    SF F4 3(R5)
+    ADDI R5 R5 #4      // hueco aprovechado en la ALU
+    LF F1 0(R4)
+    LF F2 1(R4)
+    LF F3 2(R4)
+    LF F4 3(R4)
+    ADDI R4 R4 #4
+    BNE R4 R6 COPY
+
+
+// --- [SOFTWARE PIPELINING - EPILOGO] ---
+//
+// Vaciamos la "tuberia": el ultimo bloque ya esta cargado en
+// F1..F4 pero todavia no se ha almacenado, asi que lo escribimos
+// fuera del bucle.
+SF F1 0(R5)
+SF F2 1(R5)
+SF F3 2(R5)
+SF F4 3(R5)
+
+
+// === FASE 3: Insertion Sort con PLANIFICACION GLOBAL ===
+
+ADDI R10 R0 #1
+
+ADD R8 R3 R10      // i = base + 1
+ADD R9 R3 R1       // end_exclusive = base + n
+
+OUTER:
+    BEQ R8 R9 END
+
+    // [PLANIFICACION LOCAL en OUTER]
+    // Subimos el ADD R12 antes del LF para que la latencia de
+    // 4 ciclos del LF F2 quede solapada con el setup del INNER.
+    ADD R12 R8 R0      // j = i
+    LF F2 0(R8)        // key = A[i]
+
+INNER:
+    // [PLANIFICACION GLOBAL]
+    // El ADDI y el LF se han subido por encima del BEQ que
+    // comprueba el borde izquierdo. Es una carga ESPECULATIVA:
+    // si j == base, el LF accede a A[base-1] pero F3 nunca se
+    // usa porque el BEQ salta a INSERT antes del BGTF. SIMDE no
+    // genera trap por acceso fuera de rango, asi que la
+    // especulacion es segura.
+    //
+    // Beneficio: cuando llegamos al BGTF, F3 ya lleva varios
+    // ciclos cargandose y el stall de memoria se reduce mucho.
+    ADDI R13 R12 #-1   // R13 = j - 1   (subido)
+    LF F3 0(R13)       // A[j-1]        (subido, especulativo)
+    BEQ R12 R3 INSERT  // si j == base, descartar F3 y caer a INSERT
+
+    // [REORDENACION DE BLOQUES - planificacion global]
+    // Hemos puesto INSERT inmediatamente despues del BGTF, asi
+    // que el caso "no shift" cae por FALL-THROUGH y nos hemos
+    // ahorrado un BEQ R0 R0 INSERT que existia en el original.
+    BGTF F3 F2 SHIFT   // si A[j-1] > key, ir a SHIFT
+                       // si no, fall-through a INSERT
+
+INSERT:
+    SF F2 0(R12)       // A[j] = key
+    ADDI R8 R8 #1
+    BEQ R0 R0 OUTER
+
+SHIFT:
+    SF F3 0(R12)       // A[j] = A[j-1]
+    ADD R12 R13 R0     // j = j - 1
+    BEQ R0 R0 INNER
+
+END:
