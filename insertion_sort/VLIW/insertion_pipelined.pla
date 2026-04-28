@@ -1,0 +1,74 @@
+// =============================================================
+//  insertion_pipelined.pla
+//  Desenrollado x4 + software pipelining + planif. local
+// =============================================================
+
+// === FASE 1: Cargar parametros ===
+LW R1 0(R0)        // n
+LW R2 1(R0)        // src
+LW R3 2(R0)        // dest
+
+// === FASE 2: Copia src -> dest con SOFTWARE PIPELINING x4 ===
+ADD R4 R2 R0       // R4 = src
+ADD R5 R3 R0       // R5 = dest
+ADD R6 R2 R1       // R6 = src + n
+
+// --- PROLOGO: cargamos el primer bloque (elementos 0..3) ---
+LF F1 0(R4)
+LF F2 1(R4)
+LF F3 2(R4)
+LF F4 3(R4)
+ADDI R4 R4 #4
+
+// --- CUERPO: almacena bloque PREVIO + carga SIGUIENTE ---
+COPY:
+    SF F1 0(R5)
+    SF F2 1(R5)
+    SF F3 2(R5)
+    SF F4 3(R5)
+    ADDI R5 R5 #4
+    LF F1 0(R4)
+    LF F2 1(R4)
+    LF F3 2(R4)
+    LF F4 3(R4)
+    ADDI R4 R4 #4
+    BNE R4 R6 COPY
+
+// --- EPILOGO: ultimo bloque cargado, falta almacenar ---
+SF F1 0(R5)
+SF F2 1(R5)
+SF F3 2(R5)
+SF F4 3(R5)
+
+// === FASE 3: Insertion Sort (sin cambios) ===
+ADDI R10 R0 #1
+
+ADD R8 R3 R10
+ADD R9 R3 R1
+
+OUTER:
+    BEQ R8 R9 END
+
+    LF F2 0(R8)
+    ADD R12 R8 R0
+
+INNER:
+    BEQ R12 R3 INSERT
+
+    ADDI R13 R12 #-1
+    LF F3 0(R13)
+
+    BGTF F3 F2 SHIFT
+    BEQ R0 R0 INSERT
+
+SHIFT:
+    SF F3 0(R12)
+    ADD R12 R13 R0
+    BEQ R0 R0 INNER
+
+INSERT:
+    SF F2 0(R12)
+    ADDI R8 R8 #1
+    BEQ R0 R0 OUTER
+
+END:
