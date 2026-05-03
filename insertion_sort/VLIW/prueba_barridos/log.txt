@@ -1,0 +1,181 @@
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+  ERR (1): Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at simdeLite.LongInstruction.addInstruction(LongInstruction.java:54)
+	at simdeLite.VLIWCode.loa
+Memorias disponibles: order1.mem, order2.mem, order3.mem, order4.mem, order5.mem
+
+>> BASELINE  c=50€  uf=[2, 2, 2, 2, 2]+[1 salto] (=11 UFs)
+   config por defecto, 11 UFs, 50€
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> D1  c=55€  uf=[2, 2, 2, 2, 3]+[1 salto] (=12 UFs)
+   D: +1 Memoria
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> D2  c=55€  uf=[3, 2, 2, 2, 2]+[1 salto] (=12 UFs)
+   D: +1 SumaEnt
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> D3  c=60€  uf=[3, 2, 2, 2, 3]+[1 salto] (=13 UFs)
+   D: +1 SumaEnt, +1 Memoria
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> D4  c=70€  uf=[4, 2, 2, 2, 4]+[1 salto] (=15 UFs)
+   D: agresivo (+2 SumaEnt, +2 Mem)
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> D5  c=55€  uf=[2, 3, 2, 2, 2]+[1 salto] (=12 UFs)
+   D: +1 MultEnt (control: UF ociosa)
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> E1  c=38€  uf=[2, 0, 0, 0, 2]+[1 salto] (=5 UFs)
+   E: quitar las 6 UFs Mult/Flot ociosas
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> E2  c=36€  uf=[1, 0, 0, 0, 2]+[1 salto] (=4 UFs)
+   E: además quitar 1 SumaEnt
+   order1.mem: None
+   order2.mem: None
+   order3.mem: None
+   order4.mem: None
+   order5.mem: None
+
+>> E3  c=36€  uf=[2, 0, 0, 0, 1]+[1 salto] (=4 UFs)
+   E: además quitar 1 Memoria
+   order1.mem: None
+   order2.mem: None
+   order3.mem: None
+   order4.mem: None
+   order5.mem: None
+
+>> E4  c=34€  uf=[1, 0, 0, 0, 1]+[1 salto] (=3 UFs)
+   E: agresivo (-1 SumaEnt, -1 Mem)
+   order1.mem: None
+   order2.mem: None
+   order3.mem: None
+   order4.mem: None
+   order5.mem: None
+
+>> E5  c=44€  uf=[2, 1, 1, 1, 2]+[1 salto] (=8 UFs)
+   E: quitar solo 3 UFs (1 de cada Mult/Flot)
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+>> E6  c=42€  uf=[2, 2, 0, 0, 2]+[1 salto] (=7 UFs)
+   E: quitar solo las 4 UFs Flot
+   order1.mem: 753.0
+   order2.mem: 8627.0
+   order3.mem: 4715.0
+   order4.mem: 1265.0
+   order5.mem: 3583.0
+
+===============================================================================================
+RESUMEN — ciclos por configuración y memoria
+===============================================================================================
+Config      Coste     order1     order2     order3     order4     order5    Σciclos
+-----------------------------------------------------------------------------------------------
+BASELINE      50€        753       8627       4715       1265       3583      18943
+D1            55€        753       8627       4715       1265       3583      18943
+D2            55€        753       8627       4715       1265       3583      18943
+D3            60€        753       8627       4715       1265       3583      18943
+D4            70€        753       8627       4715       1265       3583      18943
+D5            55€        753       8627       4715       1265       3583      18943
+E1            38€        753       8627       4715       1265       3583      18943
+E2            36€        ERR        ERR        ERR        ERR        ERR          0
+E3            36€        ERR        ERR        ERR        ERR        ERR          0
+E4            34€        ERR        ERR        ERR        ERR        ERR          0
+E5            44€        753       8627       4715       1265       3583      18943
+E6            42€        753       8627       4715       1265       3583      18943
+
+===============================================================================================
+ACELERACIÓN Y RATIO COSTE/ACELERACIÓN (vs BASELINE)
+===============================================================================================
+Config      Coste    Δ€    Σciclos   Aceler.   Δ€/Acel  Comentario                         
+-----------------------------------------------------------------------------------------------
+BASELINE      50€   +0€      18943    1.0000   +0.0000  config por defecto, 11 UFs, 50€    
+D1            55€   +5€      18943    1.0000   +5.0000  D: +1 Memoria                      
+D2            55€   +5€      18943    1.0000   +5.0000  D: +1 SumaEnt                      
+D3            60€  +10€      18943    1.0000  +10.0000  D: +1 SumaEnt, +1 Memoria          
+D4            70€  +20€      18943    1.0000  +20.0000  D: agresivo (+2 SumaEnt, +2 Mem)   
+D5            55€   +5€      18943    1.0000   +5.0000  D: +1 MultEnt (control: UF ociosa) 
+E1            38€  -12€      18943    1.0000  -12.0000  E: quitar las 6 UFs Mult/Flot ociosas
+E2            36€  -14€          0       nan      +nan  E: además quitar 1 SumaEnt         
+E3            36€  -14€          0       nan      +nan  E: además quitar 1 Memoria         
+E4            34€  -16€          0       nan      +nan  E: agresivo (-1 SumaEnt, -1 Mem)   
+E5            44€   -6€      18943    1.0000   -6.0000  E: quitar solo 3 UFs (1 de cada Mult/Flot)
+E6            42€   -8€      18943    1.0000   -8.0000  E: quitar solo las 4 UFs Flot      
+-----------------------------------------------------------------------------------------------
+NOTA: en d) buscar ratio MÍNIMO POSITIVO (poco coste por mucha aceleración).
+      en e) buscar ratio MÁS NEGATIVO (mucho ahorro sin perder aceleración).

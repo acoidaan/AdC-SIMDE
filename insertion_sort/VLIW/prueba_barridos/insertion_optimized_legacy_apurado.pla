@@ -1,0 +1,76 @@
+// =============================================================
+//  insertion_optimized_legacy.pla
+//
+//  Adaptado para el simulador SIMDE legacy / VLIW:
+//    - Sin instrucciones flotantes (LF -> LW, SF -> SW)
+//    - Sin registros F (F1..F4 -> R20..R23)
+//    - BGTF -> BGT
+//    - Etiquetas en la MISMA LINEA que su instruccion
+//
+//  Mismas tecnicas: desenrollado x4 + planif. local +
+//  software pipelining + planif. global.
+// =============================================================
+
+
+// === FASE 1: Cargar parametros ===
+LW R1 0(R0)
+LW R2 1(R0)
+LW R3 2(R0)
+
+
+// === FASE 2: Copia con SOFTWARE PIPELINING x4 ===
+ADD R4 R2 R0
+ADD R5 R3 R0
+ADD R6 R2 R1
+
+// PROLOGO
+LW R20 0(R4)
+LW R21 1(R4)
+LW R22 2(R4)
+LW R23 3(R4)
+ADDI R4 R4 #4
+
+// CUERPO
+COPY: SW R20 0(R5)
+SW R21 1(R5)
+SW R22 2(R5)
+SW R23 3(R5)
+ADDI R5 R5 #4
+LW R20 0(R4)
+LW R21 1(R4)
+LW R22 2(R4)
+LW R23 3(R4)
+ADDI R4 R4 #4
+BNE R4 R6 COPY
+
+// EPILOGO
+SW R20 0(R5)
+SW R21 1(R5)
+SW R22 2(R5)
+SW R23 3(R5)
+
+
+// === FASE 3: Insertion Sort (entero) ===
+ADDI R10 R0 #1
+ADD R8 R3 R10
+ADD R9 R3 R1
+
+OUTER: BEQ R8 R9 END
+ADD R12 R8 R0
+LW R21 0(R8)
+
+INNER: ADDI R13 R12 #-1
+LW R22 0(R13)
+BEQ R12 R3 INSERT
+
+BGT R22 R21 SHIFT
+
+INSERT: SW R21 0(R12)
+ADDI R8 R8 #1
+BEQ R0 R0 OUTER
+
+SHIFT: SW R22 0(R12)
+ADD R12 R13 R0
+BEQ R0 R0 INNER
+
+END:
